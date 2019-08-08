@@ -20,29 +20,32 @@
 
 
 
-
-
-
-
         const html = products.map(product =>{
-          const productOffering = offerings.filter( offer => product.id === offer.productId);
-          console.log(productOffering)
-          const offerCompany = productOffering.map( offer => {
-            const company = companies.filter( comp =>  comp.id === offer.companyId)
+          let result = {};
+          result.name = product.name
+          const productOffering = offerings.filter( offer => product.id === offer.productId).map(of=>of.price)
+          result.offers = productOffering
+          productOffering.forEach( offer =>{
+            const company = companies.find(company => company.id === offer.companyId)
+            // console.log(company.name)
+            // console.log(offer.price)
 
+            }
+          )
+          return result
           });
-         console.log(offerCompany)
-         return `<div>
-          ${product.id}
+        console.log(html)
+        //  return `<div>
+        //   ${product.id}
 
-          </div>`
+        //   </div>`
 
-       }).join('');
+
         // productsList.innerHTML = html;
-        console.log(products)
-        console.log(companies)
-        console.log(offerings)
-      }
+        // console.log(products)
+        // console.log(companies)
+        // console.log(offerings)
+       }
 
       loadData();
       // global variables
