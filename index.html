@@ -4,8 +4,47 @@
   </head>
   <body>
     <h1>Acme Product Offerings</h1>
-    <div id='products'></div>
+    <div id='productsList'>
+
+    </div>
     <script>
+      const productsList = document.querySelector('#productsList');
+      const loadData = async ()=>{
+        const responses = await Promise.all([
+          fetch('https://acme-users-api-rev.herokuapp.com/api/products'),
+          fetch('https://acme-users-api-rev.herokuapp.com/api/companies'),
+          fetch('https://acme-users-api-rev.herokuapp.com/api/offerings')
+        ]);
+
+        const [products, companies, offerings] = await Promise.all(responses.map(response => response.json()));
+
+
+
+
+
+
+
+        const html = products.map(product =>{
+          const productOffering = offerings.filter( offer => product.id === offer.productId);
+          console.log(productOffering)
+          const offerCompany = productOffering.map( offer => {
+            const company = companies.filter( comp =>  comp.id === offer.companyId)
+
+          });
+         console.log(offerCompany)
+         return `<div>
+          ${product.id}
+
+          </div>`
+
+       }).join('');
+        // productsList.innerHTML = html;
+        console.log(products)
+        console.log(companies)
+        console.log(offerings)
+      }
+
+      loadData();
       // global variables
       const API = 'https://acme-users-api-rev.herokuapp.com/api'; // to use as a base for any API calls
       let id = ''; // id of product - how will our app change this?
